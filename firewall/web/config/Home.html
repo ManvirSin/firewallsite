@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Linux Packet Filtering Firewall</title>
+  <link rel="stylesheet" type="text/css" href='styles.css'>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" class="text-center" href="#">Linux Packet Filtering Firewall</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'list_rules' %}">Firewall Rules</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+      {% extends 'base.html' %}
+{% block content %}
+  <h1>Welcome to Linux Packet Filtering Firewall</h1>
+  <p>This application allows you to manage your firewall rules on a Linux machine using iptables.</p>
+  <p>You can add, modify, and delete rules using the navigation menu above.</p>
+{% endblock %}
+
+
+    </div>
+</body>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Linux Packet Filtering Firewall</title>
+  <link rel="stylesheet" type="text/css" href='styles.css'>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" class="text-center" href="#">Linux Packet Filtering Firewall</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'about' %}">About</a>
+      </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'Home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'user_create' %}">Create Account</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'firewall_rules_form' %}">Active Rules</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'firewall_rules' %}">Firewall Rules</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Firewall Configuration</h1>
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <form id="rule-form">
+          <div class="form-group">
+            <label for="rule-name">Rule Name</label>
+            <input type="text" class="form-control" id="rule-name" required>
+            </div>
+              <div class="form-group">
+            <label for="rule">Rule</label>
+            <textarea class="form-control" id="rule" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Rule</button>
+          <button type="submit" class="btn btn-primary">Clear Rule</button>
+        </form>
+      </div>
+    </div>
+    <br>
+
+    <h2 class="text-center">Current Rules</h2>
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <table id="rules-table" class="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Rule</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+
+      <tr id="rule-{{ rule.id }}">
+        <td>rule.name</td>
+        <td>rule.rule</td>
+        <td>rule.description</td>
+        <td>
+          <button class="btn btn-info modify-rule" data-rule-id="{{ rule.id }}">Modify</button>
+          <button class="btn btn-danger delete-rule" data-rule-id="{{ rule.id }}">Delete</button>
+        </td>
+      </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+  </div>
+
+<div class="container">
+    <h1>NAT Table</h1>
+    <form id="nat-form">
+        <div class="form-group">
+            <label for="source-ip">Source IP</label>
+            <input type="text" class="form-control" id="source-ip" required>
+        </div>
+        <div class="form-group">
+            <label for="destination-ip">Destination IP</label>
+            <input type="text" class="form-control" id="destination-ip" required>
+        </div>
+        <div class="form-group">
+            <label for="protocol">Protocol</label>
+            <select class="form-control" id="protocol">
+                <option>TCP</option>
+                <option>UDP</option>
+                <option>ICMP</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="source-port">Source Port</label>
+            <input type="text" class="form-control" id="source-port" required>
+        </div>
+        <div class="form-group">
+            <label for="destination-port">Destination Port</label>
+            <input type="text" class="form-control" id="destination-port" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add NAT Rule</button>
+        <button type="submit" class="btn btn-danger" id="clear-nat-rules-button">Clear NAT Rules</button>
+    </form>
+
+    <h2 class="text-center">Current NAT Rules</h2>
+    <table id="nat-table" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Source IP</th>
+                <th>Destination IP</th>
+                <th>Protocol</th>
+                <th>Source Port</th>
+                <th>Destination Port</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nat_rule in nat_rules %}
+                <tr id="nat-{{ nat_rule.id }}">
+                    <td>{{ nat_rule.source_ip }}</td>
+                    <td>{{ nat_rule.destination_ip }}</td>
+                    <td>{{ nat_rule.protocol }}</td>
+                    <td>{{ nat_rule.source_port }}</td>
+                    <td>{{ nat_rule.destination_port }}</td>
+                    <td>
+                        <button class="btn btn-danger delete-nat" data-nat-id="{{ nat_rule.id }}">Delete</button>
+                        <button class="btn btn-info modify-nat-rule" data-nat-rule-id="{{ nat_rule.id }}">Modify</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
