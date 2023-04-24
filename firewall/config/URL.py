@@ -5,6 +5,8 @@ from . import views
 from .views import UserCreateView
 from django.urls import path
 from . import views
+from django.urls import path
+from captcha.views import captcha_image, captcha_audio
 
 urlpatterns = [
     path('about/', views.about, name='about'),
@@ -15,5 +17,7 @@ urlpatterns = [
     path('home/', views.Home, name='home'),
     path('login/', views.login, name='login'),
     path('user_create/', views.user_create, name='user_create'),
+    path('captcha/image/', captcha_image, name='captcha-image'),
+    path('captcha/audio/', captcha_audio, name='captcha-audio'),
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
 

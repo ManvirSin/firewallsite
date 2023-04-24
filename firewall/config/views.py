@@ -1,18 +1,44 @@
+from django.conf import settings
 from django.contrib.postgres import forms
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from fastapi import requests
+
 from .forms import FirewallRuleForm
 from django.core.management import call_command
-from django.shortcuts import render
 from .models import FirewallRule
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+import iptc
 import paramiko
 from django.shortcuts import render, redirect
 from .models import NatRule
+from django.contrib import messages
+from captcha.fields import CaptchaField
 
+
+def user_create(request):
+  if request.method == 'POST':
+    # validate reCAPTCHA
+    recaptcha_response = request.POST.get('g-recaptcha-response')
+    verify_url = 'https://www.google.com/recaptcha/api/siteverify'
+    params = {
+      'secret': settings.RECAPTCHA_SECRET_KEY,
+      'response': recaptcha_response
+    }
+    response = requests.get(verify_url, params=params)
+    if response.json()['success']:
+      # reCAPTCHA verified, process registration
+      username = request.POST.get('username')
+      password = request.POST.get('password')
+      # save user to database, etc.
+    else:
+      # reCAPTCHA verification failed
+      pass
+  else:
+    # show registration form
+    return render(request, 'registration.html')
 
 def clear_nat_rules(request):
     NatRule.objects.all().delete()
@@ -110,7 +136,7 @@ class FirewallRuleCreateView(CreateView):
 
         return response
 
-    def add_rule(request):
+    def add_rule(self):
         def add_rule(request):
             rule_name = request.POST.get('rule_name')
             rule_description = request.POST.get('rule_description')
@@ -129,7 +155,7 @@ class FirewallRuleCreateView(CreateView):
             # Append the rule to the chain
             chain.insert_rule(new_rule)
         except Exception as e:
-            messages.error(request, "An error occurred while adding the rule: {}".format(e))
+            messages.error(self, "An error occurred while adding the rule: {}".format(e))
         return redirect('base')
 
 def delete_rule(request, rule_id):

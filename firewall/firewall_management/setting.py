@@ -35,7 +35,15 @@ INSTALLED_APPS = [
     'forms',
     'views',
     'firewall',
+    'captcha',
+    'posts',
 ]
+
+RECAPTCHA_PUBLIC_KEY_login = '6LejxL0kAAAAAKCW3VSeHiItA97osZh2AatqJWNo'
+RECAPTCHA_PRIVATE_KEY_login = '6LejxL0kAAAAAEeQXR5psiz-LhB6YMmFJIu49vQQ'
+
+RECAPTCHA_PUBLIC_KEY_user_create = '6Ld4oL0kAAAAAPDGj4I5KNnl8ed35oLj8lkmPjzt'
+RECAPTCHA_PRIVATE_KEY_user_create = '6Ld4oL0kAAAAAGS14WJi8NqE-6I6BcbGxs5cLoTc'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

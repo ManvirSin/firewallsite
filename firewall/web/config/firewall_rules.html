@@ -11,7 +11,6 @@
         <tr>
           <th>Name</th>
           <th>Rule</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -20,8 +19,6 @@
           <td>{{ rule.name }}</td>
           <td>{{ rule.rule }}</td>
           <td>
-            <a href="{% url 'modify_rule' rule.id %}" class="btn btn-info">Modify</a>
-            <a href="{% url 'delete_rule' rule.id %}" class="btn btn-danger">Delete</a>
           </td>
         </tr>
         {% endfor %}
